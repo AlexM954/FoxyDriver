@@ -1,3 +1,3 @@
 @echo off
-"python -m foxyterminal.src.terminal"
+"python" "-m" "foxyterminal.src.terminal"
 pause
