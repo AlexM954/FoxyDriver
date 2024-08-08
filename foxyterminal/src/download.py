@@ -51,7 +51,7 @@ def download(sock):
         else:
             prog.append("")
 
-    path = os.path.abspath(os.cwd())
+    path = os.path.abspath(os.getcwd())
     filename = path + "\\programs\\program_" + num + ".txt"
     os.makedirs(os.path.dirname(filename), exist_ok=True)
 
