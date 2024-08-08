@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "FoxyDriver"
+version = "2024.1.0"
+
+requires-python = ">=3.8"
+authors = [
+  {name = "AlexM954"},
+]
+maintainers = [
+  {name = "AlexM954"}
+]
+description = "Lovely Spam! Wonderful Spam!"
+readme = "README.md"
+license = {file = "LICENSE.txt"}
+keywords = ["egg", "bacon", "sausage", "tomatoes", "Lobster Thermidor"]
+classifiers = [
+  "Programming Language :: Python",
+  "License :: GNU GPLv3 License"
+]
+
+[project.urls]
+Homepage = "https://example.com"
+Repository = "https://github.com/AlexM954/FoxyDriver.git"
+Issues = "https://github.com/AlexM954/FoxyDriver/issues"
