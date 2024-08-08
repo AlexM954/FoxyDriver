@@ -1,6 +1,6 @@
 """Download a program from a Foxy R1 fraction collector"""
 import os
-import tcp
+from . import tcp
 
 
 command_list = [
