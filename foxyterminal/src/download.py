@@ -1,0 +1,60 @@
+"""Download a program from a Foxy R1 fraction collector"""
+import os
+import tcp
+
+
+command_list = [
+    "Program",
+    "Delay",
+    "Fsize",
+    "Ftype",
+    "Last",
+    "Nonpeak",
+    "Pattern",
+    "Range",
+    "Restart",
+    "Rstime",
+    "Rtype",
+    "Threshold",
+    "Width",
+    "Window=1",
+    "Window",
+    "Wend",
+    "Wstart",
+    "Window=2",
+    "Window",
+    "Wend",
+    "Wstart",
+    "Window=3",
+    "Window",
+    "Wend",
+    "Wstart",
+    "Window=4",
+    "Window",
+    "Wend",
+    "Wstart",
+]
+
+
+def download(sock):
+    tcp.send(sock, "Remote")
+    num = input("Enter number of program to download (1-8): ")
+    tcp.send(sock, "Program=" + num)
+
+    prog = []
+
+    for cmd in command_list:
+        tcp.send(sock, cmd)
+        data = tcp.receive(sock)
+        if data:
+            prog.append(data)
+        else:
+            prog.append("")
+
+    path = os.path.abspath(os.cwd())
+
+    with open(path + "\\programs\\program_" + num + ".txt", 'w') as txt:
+        for line in prog:
+            txt.write(line.rstrip() + '\n')
+
+    print("Program downloaded succesfully.")
