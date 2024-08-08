@@ -1,7 +1,7 @@
 """Interactive TCP/IP terminal"""
 import tcp
-import download
-import upload
+from . import download
+from . import upload
 
 
 def main():
