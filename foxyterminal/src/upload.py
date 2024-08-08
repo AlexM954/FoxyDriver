@@ -1,7 +1,7 @@
 """Upload a program to a Foxy R1 fraction collector"""
 import os
 import time
-import tcp
+from . import tcp
 
 
 def upload(sock):
