@@ -22,6 +22,6 @@ In addition to the commands listed in the Foxy R1/R2 manual, the terminal includ
 - **Download**: Downloads a program from the Foxy.
 - **Upload**: Uploads a program to the Foxy.
 
-### License
+## License
 
 This project is licensed under the GNU GPL v3 license.
