@@ -52,8 +52,10 @@ def download(sock):
             prog.append("")
 
     path = os.path.abspath(os.cwd())
+    filename = path + "\\programs\\program_" + num + ".txt"
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
 
-    with open(path + "\\programs\\program_" + num + ".txt", 'w') as txt:
+    with open(filename, 'w') as txt:
         for line in prog:
             txt.write(line.rstrip() + '\n')
 
