@@ -1,5 +1,5 @@
 """Interactive TCP/IP terminal"""
-import tcp
+from . import tcp
 from . import download
 from . import upload
 
