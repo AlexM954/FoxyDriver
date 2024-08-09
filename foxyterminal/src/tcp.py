@@ -35,10 +35,14 @@ def send(sock, data):
         print(f"Failed to send data: {e}")
 
 
-def receive(sock, buffer_size=4096):
+def receive(sock, queue, buffer_size=4096):
     try:
-        data = sock.recv(buffer_size).decode()
-        return data
+        while True:
+            response = sock.recv(buffer_size)
+            if not response:
+                print("Connection closed by server.")
+                break
+            queue.put(response)
 
-    except Exception:
-        return None
+    except ConnectionResetError:
+        print("Connection reset by server.")
