@@ -43,3 +43,11 @@ def receive(sock, queue, buffer_size=4096, alive=[True]):
 
         except TimeoutError:
             pass
+
+
+def process(queue, alive=[True]):
+    while alive[0]:
+        response = queue.get()
+        if response is None:
+            break
+        print(response.decode())
