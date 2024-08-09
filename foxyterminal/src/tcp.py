@@ -1,6 +1,5 @@
 """RAW TCP connection functions"""
 import socket
-import threading
 import queue
 
 
@@ -35,14 +34,12 @@ def send(sock, data):
         print(f"Failed to send data: {e}")
 
 
-def receive(sock, queue, buffer_size=4096):
-    try:
-        while True:
+def receive(sock, queue, buffer_size=4096, alive=[True]):
+    while alive[0]:
+        try:
             response = sock.recv(buffer_size)
-            if not response:
-                print("Connection closed by server.")
-                break
-            queue.put(response)
+            if response:
+                queue.put(response)
 
-    except ConnectionResetError:
-        print("Connection reset by server.")
+        except TimeoutError:
+            pass
