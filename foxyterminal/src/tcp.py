@@ -1,5 +1,11 @@
 """RAW TCP connection functions"""
 import socket
+import threading
+import queue
+
+
+def init_queue():
+    return queue.Queue()
 
 
 def connect(ip, port, timeout=1):
