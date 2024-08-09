@@ -34,8 +34,8 @@ def send(sock, data):
         print(f"Failed to send data: {e}")
 
 
-def receive(sock, queue, buffer_size=4096, alive=[True]):
-    while alive[0]:
+def receive(sock, queue, thread_stop, buffer_size=4096):
+    while not thread_stop.is_set():
         try:
             response = sock.recv(buffer_size)
             if response:
@@ -45,8 +45,10 @@ def receive(sock, queue, buffer_size=4096, alive=[True]):
             pass
 
 
-def process(queue, alive=[True]):
-    while alive[0]:
+def process(queue, thread_pause, thread_stop):
+    while not thread_stop.is_set():
+        if thread_pause.is_set():
+            thread_pause.wait()
         response = queue.get()
         if response is None:
             break
