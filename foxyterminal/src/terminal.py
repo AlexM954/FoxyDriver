@@ -1,7 +1,7 @@
 """Interactive TCP/IP terminal"""
+import threading
+import time
 from . import tcp
-from . import download
-from . import upload
 
 
 def main():
@@ -19,21 +19,42 @@ def main():
         print("    or Download to download a program.")
         print("    or Upload to download a program.")
 
+        # Set up response queue and threads.
+        queue = tcp.init_queue()
+        thread_pause = threading.Event()
+        thread_stop = threading.Event()
+
+        thread_pause.set()
+        thread_stop.set()
+
+        recv_thread = threading.Thread(
+            target=tcp.receive,
+            args=(sock, queue, thread_stop, 4096)
+        )
+
+        proc_thread = threading.Thread(
+            target=tcp.process,
+            args=(sock, queue, thread_pause, thread_stop)
+        )
+
+        recv_thread.start()
+        proc_thread.start()
+
         while True:
             command = input("> ")
             # Process commands
             if command.lower() == "exit":
+                queue.put(None)
+                thread_stop.clear()
                 break
-            elif command.lower() == "download":
-                download.download(sock)
-            elif command.lower() == "upload":
-                upload.upload(sock)
             else:
                 tcp.send(sock, command)
-                data = tcp.receive(sock)
-                print(data)
+                time.sleep(0.1)
 
     finally:
+        # Clean up.
+        print("Closing connection.")
+        time.sleep(2.5)
         sock.close()
         print("Connection closed.")
 
