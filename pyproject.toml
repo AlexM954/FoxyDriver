@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "FoxyDriver"
-version = "2024.1.0"
+version = "2024.2.0"
 
 requires-python = ">=3.8"
 authors = [
@@ -13,16 +13,21 @@ authors = [
 maintainers = [
   {name = "AlexM954"}
 ]
-description = "Lovely Spam! Wonderful Spam!"
+description = "Python toolkit for controlling Foxy fraction collectors."
 readme = "README.md"
 license = {file = "LICENSE.txt"}
-keywords = ["egg", "bacon", "sausage", "tomatoes", "Lobster Thermidor"]
+keywords = ["Python", "Foxy", "Teledyne", "fraction collectors", "remote control", "automation"]
 classifiers = [
-  "Programming Language :: Python",
-  "License :: GNU GPLv3 License"
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Topic :: Scientific/Engineering :: Chemistry",
+  "Intended Audience :: Science/Research",
+  "Development Status :: 4 - Beta"
 ]
 
 [project.urls]
-Homepage = "https://example.com"
 Repository = "https://github.com/AlexM954/FoxyDriver.git"
 Issues = "https://github.com/AlexM954/FoxyDriver/issues"
