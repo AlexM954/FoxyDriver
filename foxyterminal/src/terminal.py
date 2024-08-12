@@ -21,10 +21,8 @@ def main():
 
         # Set up response queue and threads.
         queue = tcp.init_queue()
-        thread_pause = threading.Event()
         thread_stop = threading.Event()
 
-        thread_pause.set()
         thread_stop.set()
 
         recv_thread = threading.Thread(
@@ -34,7 +32,7 @@ def main():
 
         proc_thread = threading.Thread(
             target=tcp.process,
-            args=(sock, queue, thread_pause, thread_stop)
+            args=(sock, queue, thread_stop)
         )
 
         recv_thread.start()
@@ -47,6 +45,10 @@ def main():
                 queue.put(None)
                 thread_stop.clear()
                 break
+            elif command.lower() == "download":
+                queue.put(b"download")
+            elif command.lower() == "upload":
+                queue.put(b"upload")
             else:
                 tcp.send(sock, command)
                 time.sleep(0.1)
