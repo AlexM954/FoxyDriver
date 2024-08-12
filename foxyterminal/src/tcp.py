@@ -1,6 +1,8 @@
 """RAW TCP connection functions"""
 import socket
 import queue
+from . import download
+from . import upload
 
 
 def init_queue():
@@ -35,7 +37,7 @@ def send(sock, data):
 
 
 def receive(sock, queue, thread_stop, buffer_size=4096):
-    while not thread_stop.is_set():
+    while thread_stop.is_set():
         try:
             response = sock.recv(buffer_size)
             if response:
@@ -45,11 +47,19 @@ def receive(sock, queue, thread_stop, buffer_size=4096):
             pass
 
 
-def process(queue, thread_pause, thread_stop):
-    while not thread_stop.is_set():
-        if thread_pause.is_set():
-            thread_pause.wait()
+def process(sock, queue, thread_pause, thread_stop):
+    while thread_stop.is_set():
+        thread_pause.wait()
+
         response = queue.get()
         if response is None:
             break
+        # Hard-coded commands.
+        elif response.decode().lower() == "download":
+            download.download(sock, queue)
+            queue.get()
+        elif response.decode().lower() == "upload":
+            upload.upload(sock)
+            queue.get()
+
         print(response.decode())
