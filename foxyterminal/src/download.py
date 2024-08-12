@@ -1,5 +1,6 @@
 """Download a program from a Foxy R1 fraction collector"""
 import os
+import time
 from . import tcp
 
 
@@ -36,27 +37,22 @@ command_list = [
 ]
 
 
-def download(sock):
-    tcp.send(sock, "Remote")
+def download(sock, queue):
     num = input("Enter number of program to download (1-8): ")
-    tcp.send(sock, "Program=" + num)
-
-    prog = []
+    for cmd in ["Remote", "Program=" + num]:
+        tcp.send(sock, cmd)
+        time.sleep(0.1)
 
     for cmd in command_list:
         tcp.send(sock, cmd)
-        data = tcp.receive(sock)
-        if data:
-            prog.append(data)
-        else:
-            prog.append("")
+        time.sleep(0.1)
 
     path = os.path.abspath(os.getcwd())
     filename = path + "\\programs\\program_" + num + ".txt"
     os.makedirs(os.path.dirname(filename), exist_ok=True)
 
     with open(filename, 'w') as txt:
-        for line in prog:
-            txt.write(line.rstrip() + '\n')
+        while not queue.empty():
+            txt.write(queue.get().rstrip().decode() + '\n')
 
-    print("Program downloaded succesfully.")
+    print("\nProgram downloaded succesfully.")
