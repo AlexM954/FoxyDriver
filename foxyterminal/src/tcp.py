@@ -43,13 +43,12 @@ def receive(sock, queue, thread_stop, buffer_size=4096):
             if response:
                 queue.put(response)
 
-        except TimeoutError:
+        except socket.timeout:
             pass
 
 
-def process(sock, queue, thread_pause, thread_stop):
+def process(sock, queue, thread_stop):
     while thread_stop.is_set():
-        thread_pause.wait()
 
         response = queue.get()
         if response is None:
@@ -57,9 +56,9 @@ def process(sock, queue, thread_pause, thread_stop):
         # Hard-coded commands.
         elif response.decode().lower() == "download":
             download.download(sock, queue)
-            queue.get()
+            response = b"READY"
         elif response.decode().lower() == "upload":
             upload.upload(sock)
-            queue.get()
+            response = b"READY"
 
         print(response.decode())
